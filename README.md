@@ -47,6 +47,7 @@ export default {
         let containerHeightWidth = containerHeight / containerWidth
         if (containerHeightWidth >= this.imgHeightWidth) {
           this.$refs.imgSelf.height = containerHeight
+          this.$refs.imgSelf.width = this.$refs.imgSelf.height / this.imgHeightWidth
           let containerWidthHalf = this.$el.offsetWidth / 2
           let imgWidthHalf = this.$refs.imgSelf.width / 2
           let leftMove = imgWidthHalf - containerWidthHalf
@@ -54,6 +55,7 @@ export default {
           this.$refs.imgSelf.style.left = -leftMove + 'px'
         } else {
           this.$refs.imgSelf.width = containerWidth
+          this.$refs.imgSelf.height = this.$refs.imgSelf.width * this.imgHeightWidth
           let containerHeightHalf = this.$el.offsetHeight / 2
           let imgHeightHalf = this.$refs.imgSelf.height / 2
           let upMove = imgHeightHalf - containerHeightHalf
@@ -87,6 +89,5 @@ export default {
 ```
 ## 遇到的坑
 1. 我做这个的坑主要是开始的时候性能消耗比较大,所以找到了关于函数节流和函数去抖的相关知识看了看,暂时是用的高程3里最基础的去抖,后期再进行优化
-2. 然后就是如果页面如果刚加载的时候就进行缩放页面就会出现找不到width,height等问题,但是页面还是正常,图片还是能动态更改,用了好长时间才发现是生命周期的问题counted函数是页面载入后就立即触发了,而本组件内的图片这时候可能还没有加载过来,所以可能取不到值,所以当图片加载进来后做一个判断,当图片加载完毕时监听窗口才能够触发,这时候就不会再出现那种情况了
-3. 这是一个小坑,主要是methods里动态更新时忘记了this.$refs.imgSelf.style.top = 0, 就导致有时候当图片相对胖瘦改变的时候上下左右的位移还是之前的没有改变
+2. 这是一个小坑,主要是methods里动态更新时忘记了this.$refs.imgSelf.style.top = 0 和 this.$refs.imgSelf.width = this.$refs.imgSelf.height / this.imgHeightWidth, 就导致有时候当图片相对胖瘦改变的时候上下左右的位移还是之前的没有改变,图片还会变形.
 这是暂时遇到的坑
