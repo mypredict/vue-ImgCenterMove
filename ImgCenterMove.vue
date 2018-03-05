@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     imgCenterMove () {
-      if (!updatedOk) {
+      if (!this.updatedOk) {
         this.updatedOk = true
       }
       this.$nextTick(() => {
