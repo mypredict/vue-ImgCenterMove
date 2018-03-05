@@ -26,9 +26,6 @@ export default {
       }
     })
   },
-  updated () {
-    this.updatedOk = true
-  },
   computed: {
     imgHeightWidth () {
       return this.$refs.imgSelf.height / this.$refs.imgSelf.width
@@ -36,6 +33,9 @@ export default {
   },
   methods: {
     imgCenterMove () {
+      if (!updatedOk) {
+        this.updatedOk = true
+      }
       this.$nextTick(() => {
         let containerWidth = this.$el.offsetWidth
         let containerHeight = this.$el.offsetHeight
