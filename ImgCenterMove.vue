@@ -13,15 +13,21 @@ export default {
     return {
       thisImgSrc: this.imgSrc,
       changeImgWidth: '',
-      changeImgHeight: ''
+      changeImgHeight: '',
+      updatedOk: false
     }
   },
   mounted () {
     this.$nextTick(() => {
-      window.addEventListener('resize', () => {
-        this.timerDebounce(this.imgCenterMove)
-      })
+      if (this.updatedOk) {
+        window.addEventListener('resize', () => {
+          this.timerDebounce(this.imgCenterMove)
+        })
+      }
     })
+  },
+  updated () {
+    this.updatedOk = true
   },
   computed: {
     imgHeightWidth () {
