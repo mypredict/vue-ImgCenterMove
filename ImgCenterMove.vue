@@ -27,12 +27,11 @@ export default {
     }
     newImg.src = this.thisImgSrc
     this.$nextTick(() => {
-      window.addEventListener('resize', () => {
-        if (this.updatedOk) {
-          this.timerDebounce(this.imgCenterMove)
-        }
-      })
+      window.addEventListener('resize', this.eventListeners)
     })
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.eventListeners)
   },
   computed: {
     imgHeightWidth () {
@@ -40,6 +39,17 @@ export default {
     }
   },
   methods: {
+    eventListeners () {
+      if (this.updatedOk) {
+        this.timerDebounce(this.imgCenterMove)
+      }
+    },
+    timerDebounce (cont) {
+      clearTimeout(cont.tId)
+      cont.tId = setTimeout(() => {
+        this.imgCenterMove()
+      }, 200)
+    },
     imgCenterMove () {
       this.$nextTick(() => {
         let containerWidth = this.$el.offsetWidth
@@ -63,12 +73,6 @@ export default {
           this.$refs.imgSelf.style.top = -upMove + 'px'
         }
       })
-    },
-    timerDebounce (cont) {
-      clearTimeout(cont.tId)
-      cont.tId = setTimeout(() => {
-        this.imgCenterMove()
-      }, 200)
     }
   }
 }
@@ -85,4 +89,3 @@ export default {
   }
 }
 </style>
-
